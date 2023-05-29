@@ -1,1 +1,0 @@
-56116 4222124651064920 1674086959000000000 52f60689778b65d7c0e5a128c1da83e6 D:\NetSoft\lib\zig\lib\libc\mingw\lib-common\ntdll.def.in
