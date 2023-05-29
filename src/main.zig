@@ -19,11 +19,11 @@ pub const sender = struct {
     metadata: MetaData,
 };
 
-const MetaData = struct {
+pub const MetaData = struct {
     user_id: ?string = null,
 };
 
-fn setUserID(s: *sender, user_id: string) void {
+pub fn setUserID(s: *sender, user_id: string) void {
     s.metadata.user_id = user_id;
 }  
 
@@ -49,19 +49,18 @@ fn to_string(resp: *Response) string {
 }
 
 // Creat a New Anthropic Client
-pub fn new(client: Client) *Client {
-    return *client;
+pub fn new(client: Client) Client {
+    return client;
 }
 
-pub fn send(c: *Client, s: *sender) !void {
-    _ = s;
-    _ = c;
-
+pub fn send(c: Client) void {
+    std.debug.print("{s}\n", .{c.defaultModel});
 }
 
 pub fn main() void {
     var cn = Client{
         .key = "12354",
     };
+    send(cn);
     std.debug.print("{s}\n", .{cn.key});
 }
