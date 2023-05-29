@@ -1,0 +1,1 @@
+18381 3940649674350965 1674086959000000000 b939f3fd17c6f6db4ec2dfda0e909384 D:\NetSoft\lib\zig\lib\libc\mingw\lib-common\advapi32.def.in
