@@ -28,18 +28,14 @@ pub const sender = struct {
     max_tokens: i32,
     top_k: i32 = -1,
     top_p: i32 = -1,
-    metadata: MetaData,
+    metadata: struct {
+        user_id: ?string = null,
+    },
 
     pub fn setUserID(s: *sender, user_id: string) void {
         s.metadata.user_id = user_id;
     }
 };
-
-pub const MetaData = struct {
-    user_id: ?string = null,
-};
-
-
 
 const Response = struct {
     cache: string = "",
