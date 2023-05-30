@@ -1,5 +1,8 @@
 const std = @import("std");
+const gc = @import("gc/gc.zig");
 const http = std.http;
+
+const _ = gc.GC.init().run();
 
 const string = []const u8;
 
@@ -38,7 +41,7 @@ const Response = struct {
     truncated: bool,
 };  
 
-fn to_string(resp: *Response) string {
+fn resp_to_string(resp: *Response) string {
     if (resp.cache.len != 0) {
         return resp.cache; 
     }
