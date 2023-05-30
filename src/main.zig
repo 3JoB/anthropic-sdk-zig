@@ -1,10 +1,15 @@
 const std = @import("std");
 const gc = @import("gc/gc.zig");
-const http = std.http;
-
-const _ = gc.GC.init().run();
 
 const string = []const u8;
+
+const http = std.http;
+
+const uri = std.Uri.parse("https://api.anthropic.com/v1/complete") catch unreachable;
+const version: string = "0.0.0-20230530-a01";
+const ua: string = "Mozilla/5.0 (compatible; anthropic-sdk-zig/" + version + "; +https://github.com/3JoB/anthropic-sdk-go/;) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36";
+
+const _ = gc.GC.init().run();
 
 pub const Client = struct {
     key: string,
@@ -58,8 +63,24 @@ const Response = struct {
 }; 
 
 // Creat a New Anthropic Client
-pub fn new(client: Client) Client {
-    return client;
+pub fn new(client: Client) *Client {
+    var c = http.Client;
+    defer c.deinit();
+
+    const header = http.Headers;
+    header.append("User-Agent", ua);
+    header.append("Accept","application/json");
+    header.append("Content-Type", "application/json");
+    header.append("Client", "anthropic-sdk-zig/" + version);
+    header.append("x-api-key", client.key);
+
+    var req = try c.request(.POST, uri, header, .{});
+    defer req.deinit();
+    try req.start();
+    try req.wait();
+
+    try std.testing.expect(req.response.status == .ok);
+    return *client;
 }
 
 pub fn main() void {
